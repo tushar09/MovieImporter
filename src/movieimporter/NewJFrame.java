@@ -98,20 +98,33 @@ public class NewJFrame extends javax.swing.JFrame {
         
         ArrayList name = new ArrayList();
         ArrayList size = new ArrayList();
-        
+        ArrayList quality = new ArrayList();
+
+        int t = 0;
         for (Element e : document.select("Contents")) {
             //System.out.println(e);
             Document doc = Jsoup.parse(e.toString(), "", Parser.xmlParser());
             Elements e1 = doc.select("key");
+            String key = e1.toString().replace("<key>", "");
+            key = key.replace(key, key).replace("</key>", "");
+            key = key.replace(key, key).replace("</key>", "");
+            key = key.replace(key, key).replace("[fmovies.to]", "");
+            String q = key.substring(key.lastIndexOf("-") + 1);
+            key = key.replace(q, "");
+            key = key.replace("\n", "");
+            key = key.substring(0, key.length() - 2);
+            q = q.replace(".mp4", "");
+            quality.add(q);
+            
             Elements e2 = doc.select("size");
-            name.add("" + (e1.toString().replace("<key>", "")).replace("</key>", ""));
-            size.add("" + (e2.toString().replace("<size>", "")).replace("</size>", ""));
+            name.add(key);
+            size.add("" + (e2.toString().replace("<size>", "")).replace("</size>", "").replace("\n", "").replaceAll(" ", ""));
            
         }
         
         System.out.println("Loop Finished");
-        for(int t  = 0; t < name.size(); t++){
-            System.out.println(name.get(t) + " " + size.get(t));
+        for(int t1  = 0; t1 < name.size(); t1++){
+            System.out.println(name.get(t1) + " " + size.get(t1));
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
